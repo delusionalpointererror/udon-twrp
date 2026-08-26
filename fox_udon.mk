@@ -49,5 +49,5 @@ OF_FLASHLIGHT_ENABLE := 1
 OF_FL_PATH1 := "/sys/class/leds/led:torch_0"
 OF_FL_PATH2 := "/sys/class/leds/led:torch_1"
 OF_QUICK_BACKUP_LIST := "/boot;/data;/super;"
-OF_TARGET_DEVICES := "udon,aston,CPH2487,OP5961L1"
+FOX_TARGET_DEVICES := udon,aston,CPH2487,OP5961L1
 OF_ALLOW_DISABLE_NAVBAR := 0
