@@ -28,6 +28,22 @@ TARGET_NO_BOOTLOADER := true
 
 # A/B & Virtual A/B
 AB_OTA_UPDATER := true
+AB_OTA_PARTITIONS += \
+    boot \
+    dtbo \
+    init_boot \
+    odm \
+    odm_dlkm \
+    product \
+    system \
+    system_ext \
+    vbmeta \
+    vbmeta_system \
+    vbmeta_vendor \
+    vendor \
+    vendor_boot \
+    vendor_dlkm
+
 ENABLE_VIRTUAL_AB := true
 BOARD_USES_VIRTUAL_AB_RECOVERY := true
 BOARD_USES_DYNAMIC_PARTITIONS := true
