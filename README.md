@@ -4,6 +4,14 @@ Official OrangeFox Recovery source tree for the **OnePlus 11R 5G** (Qualcomm Sna
 
 ---
 
+## 📥 Downloads & Releases
+
+- 🚀 **GitHub Release**: **[OrangeFox Recovery R12.0 for OnePlus 11R (udon / aston)](https://github.com/Gokulgethu/device_oneplus_udon-orangefox/releases/tag/R12.0-udon-unofficial)**
+- 📦 **[OrangeFox-R12.0-Unofficial-udon.zip (48.14 MB)](https://github.com/Gokulgethu/device_oneplus_udon-orangefox/releases/download/R12.0-udon-unofficial/OrangeFox-R12.0-Unofficial-udon.zip)**
+- ⚡ **[recovery.img (24.68 MB)](https://github.com/Gokulgethu/device_oneplus_udon-orangefox/releases/download/R12.0-udon-unofficial/recovery.img)**
+
+---
+
 ## 📱 Device Specifications
 
 | Feature | Specification |
