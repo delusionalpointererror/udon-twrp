@@ -123,6 +123,7 @@ jobs:
           name: OrangeFox-OnePlus11R-${{ github.sha }}
           path: |
             /home/runner/fox/out/target/product/*/OrangeFox*.zip
+            /home/runner/fox/out/target/product/*/OrangeFox*.img
             /home/runner/fox/out/target/product/*/recovery.img
             /home/runner/fox/out/target/product/*/boot.img
             /home/runner/fox/out/target/product/*/vendor_boot.img
