@@ -1,4 +1,4 @@
-name: Build OrangeFox Recovery for OnePlus 11R (udon)
+name: Build OrangeFox Recovery for OnePlus 11R (taro / udon)
 
 on:
   workflow_dispatch:
@@ -65,9 +65,10 @@ jobs:
 
       - name: Integrate OnePlus 11R Device Tree
         run: |
-          rm -rf /home/runner/fox/device/oneplus/udon
+          rm -rf /home/runner/fox/device/oneplus/udon /home/runner/fox/device/oneplus/taro
           mkdir -p /home/runner/fox/device/oneplus
           cp -r $GITHUB_WORKSPACE/device/oneplus/udon /home/runner/fox/device/oneplus/
+          ln -s /home/runner/fox/device/oneplus/udon /home/runner/fox/device/oneplus/taro
 
       - name: Build OrangeFox Recovery
         shell: bash
@@ -77,27 +78,37 @@ jobs:
           export ALLOW_MISSING_DEPENDENCIES=true
           export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
           export FOX_VIRTUAL_AB_DEVICE=1
-          export TARGET_DEVICE=udon
+          export TARGET_DEVICE=taro
           export LC_ALL="C"
           
           echo "=== Sourcing envsetup.sh ==="
           source build/envsetup.sh
           
           echo "=== Running lunch ==="
-          lunch fox_udon-eng
+          lunch fox_taro-eng
           LUNCH_STATUS=$?
           if [ $LUNCH_STATUS -ne 0 ]; then
-            echo "fox_udon-eng failed, trying fox_udon-userdebug..."
-            lunch fox_udon-userdebug
+            echo "fox_taro-eng failed, trying fox_taro-userdebug..."
+            lunch fox_taro-userdebug
             LUNCH_STATUS=$?
           fi
           if [ $LUNCH_STATUS -ne 0 ]; then
-            echo "fox_udon-userdebug failed, trying omni_udon-eng..."
-            lunch omni_udon-eng
+            echo "fox_taro-userdebug failed, trying fox_udon-eng..."
+            lunch fox_udon-eng
             LUNCH_STATUS=$?
           fi
           if [ $LUNCH_STATUS -ne 0 ]; then
-            echo "omni_udon-eng failed, trying twrp_udon-eng..."
+            echo "fox_udon-eng failed, trying omni_taro-eng..."
+            lunch omni_taro-eng
+            LUNCH_STATUS=$?
+          fi
+          if [ $LUNCH_STATUS -ne 0 ]; then
+            echo "omni_taro-eng failed, trying twrp_taro-eng..."
+            lunch twrp_taro-eng
+            LUNCH_STATUS=$?
+          fi
+          if [ $LUNCH_STATUS -ne 0 ]; then
+            echo "twrp_taro-eng failed, trying twrp_udon-eng..."
             lunch twrp_udon-eng
             LUNCH_STATUS=$?
           fi
@@ -111,8 +122,8 @@ jobs:
         with:
           name: OrangeFox-OnePlus11R-${{ github.sha }}
           path: |
-            /home/runner/fox/out/target/product/udon/OrangeFox*.zip
-            /home/runner/fox/out/target/product/udon/recovery.img
-            /home/runner/fox/out/target/product/udon/boot.img
-            /home/runner/fox/out/target/product/udon/vendor_boot.img
+            /home/runner/fox/out/target/product/*/OrangeFox*.zip
+            /home/runner/fox/out/target/product/*/recovery.img
+            /home/runner/fox/out/target/product/*/boot.img
+            /home/runner/fox/out/target/product/*/vendor_boot.img
           if-no-files-found: warn

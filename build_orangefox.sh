@@ -19,12 +19,12 @@ export LC_ALL="C"
 source build/envsetup.sh
 
 # Lunch target
-lunch fox_udon-eng || lunch omni_udon-eng || lunch twrp_udon-eng
+lunch fox_taro-eng || lunch fox_udon-eng || lunch omni_taro-eng || lunch omni_udon-eng || lunch twrp_taro-eng || lunch twrp_udon-eng
 
 # Compile recovery image
 mka recoveryimage -j$(nproc --all)
 
 echo "=========================================================="
 echo " OrangeFox Recovery Build Finished Successfully!"
-echo " Output files located in: out/target/product/udon/"
+echo " Output files located in: out/target/product/taro/ (or udon/)"
 echo "=========================================================="
