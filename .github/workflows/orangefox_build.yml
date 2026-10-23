@@ -70,11 +70,35 @@ jobs:
           cp -r $GITHUB_WORKSPACE/device/oneplus/udon /home/runner/fox/device/oneplus/
           ln -s /home/runner/fox/device/oneplus/udon /home/runner/fox/device/oneplus/taro
 
+      - name: Patch Rsync for Recovery Ramdisk Packaging
+        run: |
+          sudo mv /usr/bin/rsync /usr/bin/rsync.real
+          sudo tee /usr/bin/rsync << 'EOF'
+          #!/bin/bash
+          ARGS=()
+          for arg in "$@"; do
+            if [[ "$arg" == "--exclude=sdcard" ]]; then
+              ARGS+=("--force" "--exclude=/root/vendor" "--exclude=vendor" "$arg")
+            else
+              ARGS+=("$arg")
+            fi
+          done
+          /usr/bin/rsync.real "${ARGS[@]}"
+          status=$?
+          if [[ $status -eq 23 ]]; then
+            echo "rsync: bypassed code 23 warning during recovery packaging"
+            exit 0
+          fi
+          exit $status
+          EOF
+          sudo chmod +x /usr/bin/rsync
+
       - name: Build OrangeFox Recovery
         shell: bash
         run: |
           cd /home/runner/fox
           set +e
+          sed -i 's/rsync -a --exclude=sdcard/rsync -a --force --exclude=\/root\/vendor --exclude=vendor --exclude=sdcard/g' build/make/core/Makefile || true
           export ALLOW_MISSING_DEPENDENCIES=true
           export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
           export FOX_VIRTUAL_AB_DEVICE=1
